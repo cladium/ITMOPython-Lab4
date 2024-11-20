@@ -1,4 +1,5 @@
 MAX_CAPACITY = 8
+START_HP = 15
 
 items = [
     ('r', 3, 25),
@@ -14,6 +15,16 @@ items = [
     ('s', 2, 20),
     ('c', 2, 20)
 ]
+
+def find_list_difference(list1, list2):
+    set1 = set(list1)
+    set2 = set(list2)
+    difference_set = set1.difference(set2)
+    return list(difference_set) 
+
+def find_sum_of_values(items, index):
+    values_at_index = list(zip(*items))[index]
+    return sum(values_at_index)
 
 def new_print_items_table(items, row_capacity=4):
     items = sorted(items, key=lambda x: x[1], reverse=True)
@@ -69,5 +80,6 @@ for i in range(n, 0, -1):
         selected_items.append(items[i - 1])
         w -= item_weight
 
+
 new_print_items_table(selected_items, 4)
-print("Итоговые очки выживания:", dp[n][MAX_CAPACITY])
+print("Итоговые очки выживания:", dp[n][MAX_CAPACITY] - find_sum_of_values(find_list_difference(items, selected_items), 2))
