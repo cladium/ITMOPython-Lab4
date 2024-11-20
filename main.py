@@ -2,58 +2,62 @@ MAX_CAPACITY = 8
 START_HP = 15
 
 items = [
-    ('r', 3, 25),
-    ('p', 2, 15),
-    ('a', 2, 15),
-    ('m', 2, 20),
-    ('i', 1, 5),
-    ('k', 1, 15),
-    ('x', 3, 20),
-    ('t', 1, 25),
-    ('f', 1, 15),
-    ('d', 1, 10),
-    ('s', 2, 20),
-    ('c', 2, 20)
+    ("r", 3, 25),
+    ("p", 2, 15),
+    ("a", 2, 15),
+    ("m", 2, 20),
+    ("i", 1, 5),
+    ("k", 1, 15),
+    ("x", 3, 20),
+    ("t", 1, 25),
+    ("f", 1, 15),
+    ("d", 1, 10),
+    ("s", 2, 20),
+    ("c", 2, 20),
 ]
+
 
 def find_list_difference(list1, list2):
     set1 = set(list1)
     set2 = set(list2)
     difference_set = set1.difference(set2)
-    return list(difference_set) 
+    return list(difference_set)
+
 
 def find_sum_of_values(items, index):
     values_at_index = list(zip(*items))[index]
     return sum(values_at_index)
 
+
 def new_print_items_table(items, row_capacity=4):
     items = sorted(items, key=lambda x: x[1], reverse=True)
-    
+
     current_row = []
     remaining_capacity = row_capacity
     # while there are items left to place
     while items:
         found_fit = False
-        
+
         for name, size, value in items[:]:
             if size <= remaining_capacity:
                 # if the item fits in the remaining capacity, add it to the row
-                current_row.extend([f'[{name}]'] * size)
+                current_row.extend([f"[{name}]"] * size)
                 remaining_capacity -= size
                 items.remove((name, size, value))
                 found_fit = True
                 # break because we found a fitting object, and we need to check the remaining space
                 break
-    
+
         # if no object can fit in the remaining space, print the current row and start a new one
         if not found_fit:
-            print(' '.join(current_row))
+            print(" ".join(current_row))
             current_row = []
             remaining_capacity = row_capacity
-            
+
     # print any remaining objects in the last row
     if current_row:
-        print(' '.join(current_row))
+        print(" ".join(current_row))
+
 
 # table for dynamic programming
 n = len(items)
@@ -82,4 +86,9 @@ for i in range(n, 0, -1):
 
 
 new_print_items_table(selected_items, 4)
-print("Итоговые очки выживания:", dp[n][MAX_CAPACITY] - find_sum_of_values(find_list_difference(items, selected_items), 2))
+print(
+    "Итоговые очки выживания:",
+    START_HP
+    + dp[n][MAX_CAPACITY]
+    - find_sum_of_values(find_list_difference(items, selected_items), 2),
+)
